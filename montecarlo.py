@@ -6,7 +6,7 @@ This code is not intended to be given to students until after they have attempte
 versions.
 
 authors: Joshua F. Robinson <joshua.robinson@bristol.ac.uk>
-             Peter Crowther <pc9836.2010@my.bristol.ac.uk>
+             Peter Crowther <pc9836@bristol.ac.uk>
 
 Based on code originally written by C. P. Royall.
 """

@@ -13,7 +13,7 @@ The process follows:
   6. Display analysis.
 
 authors: Joshua F. Robinson <joshua.robinson@bristol.ac.uk>
-             Peter Crowther <pc9836.2010@my.bristol.ac.uk>
+             Peter Crowther <pc9836@bristol.ac.uk>
 
 Based on code originally written by C. P. Royall.
 """
