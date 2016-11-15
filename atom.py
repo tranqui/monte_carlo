@@ -2,6 +2,9 @@
 """
 Module for reading and writing snapshots from LAMMPS (.atom) file formats.
 
+This module uses advanced python features & libraries, and as such the student is not
+intended to change the code. A curious student may wish to examine the code out of interest.
+
 The module defines:
   - snapshot: the class containing the snapshot data and handles the reading/writing
   - NoSnapshotError: exception raised when a snapshot could not be read from the file

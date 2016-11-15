@@ -41,7 +41,7 @@ current = lattice.create([ncells]*d, unit_cell)
 # Rescale the box/coordinates so we achieve the correct volume fraction/density.
 atoms_per_cell = len(unit_cell)
 atom_volume = np.pi*diameter**3 / 6
-initial_volume_fraction = atoms_per_cell * atom_volume
+initial_volume_fraction = atoms_per_cell * atom_volume # / unit volume (=1)
 rescale = (initial_volume_fraction/volume_fraction)**(1./3)
 current.box *= rescale
 current.x *= rescale

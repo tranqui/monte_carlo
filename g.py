@@ -2,6 +2,9 @@
 """
 Module for computing pair distribution functions from snapshots.
 
+This module uses advanced python features & libraries, and as such the student is not
+intended to change the code. A curious student may wish to examine the code out of interest.
+
 The module defines:
   - unit_sphere_volume: volume of a sphere of unit diameter
   - bin_distances: histograms the pair distances within a snapshot
