@@ -26,4 +26,4 @@ Additional helper modules are provided which hide some of the more complex tasks
 
 Based on code by C. Patrick Royall <chcpr@bristol.ac.uk>
 
-Group website: [padrus.com]
+Group website: [padrus.com](padrus.com)
