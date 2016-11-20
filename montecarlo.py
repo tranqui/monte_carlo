@@ -77,7 +77,7 @@ def sweep(snap, step_size=0.1):
     # Some random perturbations of each particle.
     perturbation = step_size*uniform(-1,1, snap.x.shape)
 
-    for atom in range(current.n):
+    for atom in range(snap.n):
         # Trial position for the Monte Carlo step.
         new_pos = snap.x[atom] + perturbation[atom]
 
