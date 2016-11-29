@@ -22,17 +22,24 @@ import numpy as np
 from atom import snapshot
 from g import pair_distribution
 import lattice, montecarlo, atom
+from montecarlo import SquareWell
 
 # Properties of the fluid
-ncells = 3              # number of initial lattice cells to create (sets the number of particles)
+ncells = 4              # number of initial lattice cells to create (sets the number of particles)
 d = 3                   # dimension
-volume_fraction = 0.3   # occupied volume: sets the density
+volume_fraction = 0.1   # occupied volume: sets the density
 diameter = 1.0          # diameter of hard spheres
+# Interaction potential between hard spheres close to contact
+square_well = None
+#square_well = SquareWell(-1, 0.1*diameter)
+#square_well = SquareWell(-2.5, 0.1*diameter)
+#square_well = SquareWell(-4, 0.1*diameter)
+#square_well = SquareWell(-10, 0.1*diameter)
 
 # Settings for the simulation
-num_sweeps_to_equilibrate = 25
-num_sweeps_between_collects = 25
-num_collections = 10
+num_sweeps_to_equilibrate = 40
+num_sweeps_between_collects = 5
+num_collections = 80
 
 # Create the initial crystal lattice. This will create a ncells^d unit cells (of length 1 each)
 unit_cell = lattice.cell.FCC
@@ -48,7 +55,7 @@ current.x *= rescale
 
 # Melt the crystal.
 print('melting crystal...')
-for sweep in range(num_sweeps_to_equilibrate): current = montecarlo.sweep(current)
+for sweep in range(num_sweeps_to_equilibrate): current = montecarlo.sweep(current, square_well)
 
 # Collection run.
 trajectory = [current.copy()]

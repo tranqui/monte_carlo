@@ -12,7 +12,6 @@ Based on code originally written by C. P. Royall.
 """
 
 import numpy as np
-from numpy.random import uniform
 
 def apply_periodicity(dr, box):
     """Apply periodic boundary conditions to the displacement vector.
@@ -43,7 +42,7 @@ def distance(a, b, box):
     """
     dr = b-a
     dr = apply_periodicity(dr, box)
-    return np.sqrt(sum(dr**2))
+    return np.sqrt(np.sum(dr**2))
 
 def overlap(a, b, box):
     """Determine whether two hard spheres overlap.
@@ -59,38 +58,70 @@ def overlap(a, b, box):
     return dr <= 1.
 
 
-class OverlapError(Exception):
+class BadMonteCarlo(Exception):
     """Exception raised when hard spheres overlap.
 
     Used to abort a trial Monte Carlo step in the Metropolis-Hastings algorithm.
     """
 
-def sweep(snap, step_size=0.1):
+class SquareWell:
+    """Square well interaction potential between particles.
+
+    This potential defines the parameters for a square well with a width and depth.
+    """
+
+    def __init__(self, depth, width):
+        self.depth = depth
+        self.width = width
+
+def sweep(snap, square_well=None, step_size=0.5):
     """Single Monte Carlo sweep for hard spheres using the Metropolis-Hastings algorithm.
 
     Args:
         snap (snapshot): initial snapshot before sweep
+        square_well: potential for interaction between hard spheres outside of contact
         step_size (float): size of trial Monte Carlo steps for each particle
     Returns:
         snap (snapshot): updated snapshot from sweep
     """
     # Some random perturbations of each particle.
-    perturbation = step_size*uniform(-1,1, snap.x.shape)
+    perturbation = step_size * np.random.uniform(-1,1, snap.x.shape)
 
-    for atom in range(snap.n):
+    for step in range(snap.n):
+        # Pick a random atom to move.
+        atom = np.random.randint(snap.n)
         # Trial position for the Monte Carlo step.
-        new_pos = snap.x[atom] + perturbation[atom]
+        new_pos = snap.x[atom] + perturbation[step]
 
         # If the particle can move to the new position without overlapping others, then do it.
         try:
-            # Metropolis-Hastings rule: prevent particle overlap
+            # Potential energies for the square well.
+            initial_energy, updated_energy = 0., 0.
+
+            # Metropolis-Hastings rule
             for neighbour in range(snap.n):
                 if neighbour is atom: continue
-                if overlap(new_pos, snap.x[neighbour], snap.box): raise OverlapError
+
+                # Prevent particle overlap
+                dr = distance(new_pos, snap.x[neighbour], snap.box)
+                overlap = (dr <= 1.)
+                if overlap: raise BadMonteCarlo
+
+                # If this is for the square well find the change in potential energy from the step.
+                if square_well:
+                    if dr <= square_well.width: updated_energy += square_well.depth
+                    dr = distance(snap.x[atom], snap.x[neighbour], snap.box)
+                    if dr <= square_well.width: initial_energy += square_well.depth
+
+            # Metropolis-Hastings rule on the square well potential energy change.
+            if square_well:
+                delta = updated_energy - initial_energy
+                if np.random.rand() > np.exp(-delta): raise BadMonteCarlo
+
             # If we did not abort, then the new position is valid.
-            snap.x[atom] = new_pos
-        # Particles overlapped, so abort the step of the particle.
-        except OverlapError: pass
+            snap.x[atom] = apply_periodicity(new_pos, snap.box)
+        # Monte Carlo acceptance rule failed, so abort the step of the particle.
+        except BadMonteCarlo: pass
 
     snap.time += 1
     return snap

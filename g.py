@@ -55,7 +55,7 @@ def bin_distances(snap, bins):
     # Return double the counts, because each pair distance involves two particles
     return 2*counts
 
-def pair_distribution(trajectory, num_bins=25):
+def pair_distribution(trajectory, num_bins=35):
     """Compute g(r) averaged over every snapshot in the given trajectory.
 
     Args:

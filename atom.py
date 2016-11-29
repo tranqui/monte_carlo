@@ -169,7 +169,7 @@ class snapshot:
         for _ in self.box: f.write(' pp')
         f.write('\n')
         for length in self.box:
-            f.write('0 %.8f\n' % length)
+            f.write('%.8f %.8f\n' % (-0.5*length, 0.5*length))
         f.write('ITEM: ATOMS id type x y z')
         for i,(name,x) in enumerate(zip(self.types,self.x)):
             f.write('\n')
