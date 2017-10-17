@@ -6,8 +6,6 @@ This code forms the basis of a short course on simulation techniques for PhD can
 
 This repository contains python code which emphasises **clarity** over speed, to provide the simplest introduction for students encountering the concepts for the first time. As such, the techniques presented should not be considered state-of-the-art. In fact, the code will run **very** slow for systems with large numbers of particles, or at high densities.
 
-The course was taught with this repository by C. Patrick Royall the first time in Autumn 2016 at the University of Bristol.
-
 ## Overview of the files
 
 The core files included are:
@@ -23,7 +21,5 @@ Additional helper modules are provided which hide some of the more complex tasks
 
 * Joshua F. Robinson <joshua.robinson@bristol.ac.uk>
 * Peter Crowther <pc9836@bristol.ac.uk>
-
-Based on code by C. Patrick Royall <chcpr@bristol.ac.uk>
 
 Group website: [padrus.com](http://padrus.com)
