@@ -60,7 +60,7 @@ def create(n, unit_cell):
     grid = np.array(np.meshgrid(*grid)).T
     grid = grid.reshape(-1,d)
 
-    lattice_sites = np.repeat(grid, atoms_per_cell, 0)
+    lattice_sites = np.repeat(grid, atoms_per_cell, axis=0)
     snap.x += lattice_sites
 
     snap.box = np.array(n, dtype=float)
